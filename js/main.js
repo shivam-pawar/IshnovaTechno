@@ -1,5 +1,5 @@
 /* ==========================================================================
-   IdeaBridge Technologies — site behaviour
+   Ishnova Techno Private Limited — site behaviour
    Vanilla JS, no dependencies. Every module exits quietly if its markup
    is absent, so one file can serve every page.
    ========================================================================== */
