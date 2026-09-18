@@ -22,6 +22,7 @@
       toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       nav.classList.toggle("is-open", open);
       document.body.classList.toggle("nav-open", open);
+      document.documentElement.classList.toggle("nav-open", open);
       if (scrim) scrim.classList.toggle("is-open", open);
       if (open) {
         var first = nav.querySelector("a, button");

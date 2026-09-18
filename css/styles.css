@@ -107,6 +107,9 @@ body {
   overflow-x: hidden;
 }
 
+/* Locked on both: body-only scroll locking is unreliable on iOS Safari,
+   where the scrolling element is the documentElement. */
+html.nav-open,
 body.nav-open { overflow: hidden; }
 
 img,
@@ -1455,6 +1458,19 @@ p:last-child { margin-bottom: 0; }
 @media (max-width: 880px) {
   .nav-toggle { display: grid; }
 
+  /* INVARIANT: .site-header must not create a containing block for fixed
+     descendants at this breakpoint, because .primary-nav below is fixed and
+     nested inside it. backdrop-filter (like transform, filter, perspective,
+     will-change of those, and contain: paint/layout/strict/content) does
+     exactly that — which collapsed the drawer to the header's own height.
+     The mobile header therefore uses a solid background, not glass.
+     Do not add any of those properties to the header inside this query. */
+  .site-header.is-stuck {
+    background: var(--ink-900);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .primary-nav {
     position: fixed;
     inset: 0 0 0 auto;
@@ -1463,12 +1479,13 @@ p:last-child { margin-bottom: 0; }
     align-items: stretch;
     justify-content: flex-start;
     gap: 0;
-    padding: 96px 28px 40px;
+    padding: 96px 28px max(40px, env(safe-area-inset-bottom) + 24px);
     background: var(--ink-800);
     border-left: 1px solid var(--line);
     transform: translateX(102%);
     transition: transform 320ms var(--ease);
     overflow-y: auto;
+    overscroll-behavior: contain;
     z-index: 90;
   }
 
